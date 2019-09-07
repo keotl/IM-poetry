@@ -1,7 +1,7 @@
-import { DumpParser } from "content/DumpParser";
-import { Message, User, SLACK_DUMP_TYPE } from "content/Types";
+import { ChatLogParser } from 'chat/ChatLogParser';
+import { Message, User, SLACK_DUMP_TYPE } from 'chat/Types';
 
-export class SlackDumpParser implements DumpParser {
+export class SlackChatLogParser implements ChatLogParser {
   extractMessages(dump: string): Message[] {
       const payload = JSON.parse(dump) as SlackDumpFormat;
       return payload.messages.map(m => ({

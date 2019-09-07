@@ -16,17 +16,22 @@ require('ts-node').register({
 
 const path = require(`path`);
 const fs = require('fs');
+const chatLogParseFactory = require("./src/chat/ChatLogParser").createChatLogParser;
 const SlackPage = require('./src/templates/SlackPage').SlackPage;
 
 exports.createPages = ({ actions }) => {
     const { createPage } = actions;
-    const pageData = JSON.parse(fs.readFileSync('./content/archi-dump.json', { encoding: 'utf-8' }));
+    const conversationDump = fs.readFileSync('./content/archi-dump.json', { encoding: 'utf-8' });
+    const parser = chatLogParseFactory();
+    const messages = parser.extractMessages(conversationDump);
+    const users = parser.extractUsers(conversationDump);
 
     createPage({
         path: "/slack",
         component: path.resolve("./src/templates/SlackPage.tsx"),
         context: {
-            name: "foobar"
+            messages,
+            users,
         }
     });
 };

@@ -17,7 +17,9 @@
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-helmet": "^5.2.1"
+    "react-helmet": "^5.2.1",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.6.2"
   },
   "devDependencies": {
     "@types/node": "^12.7.4",

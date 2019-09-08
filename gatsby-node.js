@@ -7,12 +7,7 @@
 // You can delete this file if you're not using it
 
 require('source-map-support').install()
-require('ts-node').register({
-    compilerOptions: {
-        module: 'commonjs',
-        target: 'es2017',
-    },
-})
+require('ts-node').register()
 
 const path = require(`path`);
 const fs = require('fs');

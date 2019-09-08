@@ -1,5 +1,7 @@
 import React from "react";
-import { Message, User } from "chat/Types";
+import { Message, User } from '../chat/Types';
+import { SlackMessageContainer } from '../components/Slack/MessageContainer';
+
 
 type SlackPageProps = {
   pageContext: {
@@ -9,5 +11,9 @@ type SlackPageProps = {
 };
 
 export default function SlackPage(props: SlackPageProps) {
-  return <div>{JSON.stringify(props.pageContext.messages)}</div>;
+  return (
+    <div>
+      <SlackMessageContainer messages={props.pageContext.messages} />
+    </div>
+  );
 }

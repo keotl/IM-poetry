@@ -10,6 +10,12 @@ type MessageComponentProps = {
 export function MessageComponent(props: MessageComponentProps) {
   const userStore = useContext(UserStoreContext);
   const user = userStore.getUser(props.message.user);
+
+  if (user === undefined) {
+    // TODO create user placeholder
+    return null;
+  }
+
   return (
     <Container>
       <Avatar src={user.avatar_url} />

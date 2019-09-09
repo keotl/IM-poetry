@@ -14,7 +14,12 @@ export class SlackChatLogParser implements ChatLogParser {
       return messages;
   }
   extractUsers(dump: string): User[] {
-    return [];
+      const payload = JSON.parse(dump) as SlackDumpFormat;
+      return payload.users.map(u => ({
+          id: u.id,
+          name: u.real_name,
+          avatar_url: u.profile.image_512
+      }));
   }
 }
 
@@ -28,4 +33,18 @@ type SlackDumpFormat = {
     team: string;
     type: string;
   }[];
+    users: {
+        id: string;
+        team_id: string;
+        name: string;
+        real_name: string;
+        profile: {
+            image_24: string;
+            image_32: string;
+            image_48: string;
+            image_72: string;
+            image_192: string;
+            image_512: string;
+        }
+    }[]
 };

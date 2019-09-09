@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Message } from "../../chat/Types";
 import styled from "styled-components";
+import { UserStoreContext } from "../UserStore";
 
 type MessageComponentProps = {
   message: Message;
 };
 
 export function MessageComponent(props: MessageComponentProps) {
+  const userStore = useContext(UserStoreContext);
+  const user = userStore.getUser(props.message.user);
   return (
     <Container>
-      <Avatar src="https://ca.slack-edge.com/TCPTHK869-USLACKBOT-sv41d8cd98f0-48" />
+      <Avatar src={user.avatar_url} />
       <TextContent>
-        <UserName>{props.message.user}</UserName>
+        <UserName>{user.name}</UserName>
         <TextContent>{props.message.text}</TextContent>
       </TextContent>
     </Container>

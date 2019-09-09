@@ -4,12 +4,14 @@ import { Message, User, SLACK_DUMP_TYPE } from "../Types";
 export class SlackChatLogParser implements ChatLogParser {
   extractMessages(dump: string): Message[] {
     const payload = JSON.parse(dump) as SlackDumpFormat;
-    return payload.messages.map(m => ({
+    const messages = payload.messages.map(m => ({
       id: m.client_msg_id,
       text: m.text,
       user: m.user,
       timestamp: new Date(parseInt(m.ts.split(".")[0]) * 1000),
     }));
+      messages.sort((a,b) => b.timestamp.getTime() - a.timestamp.getTime());
+      return messages;
   }
   extractUsers(dump: string): User[] {
     return [];

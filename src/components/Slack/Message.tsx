@@ -14,3 +14,4 @@ export function MessageComponent(props: MessageComponentProps) {
     </div>
   );
 }
+

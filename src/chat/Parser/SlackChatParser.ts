@@ -10,7 +10,7 @@ export class SlackChatLogParser implements ChatLogParser {
       user: m.user,
       timestamp: new Date(parseInt(m.ts.split(".")[0]) * 1000),
     }));
-      messages.sort((a,b) => b.timestamp.getTime() - a.timestamp.getTime());
+      messages.sort((a,b) => a.timestamp.getTime() - b.timestamp.getTime());
       return messages;
   }
   extractUsers(dump: string): User[] {

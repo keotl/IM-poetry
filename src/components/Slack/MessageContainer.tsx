@@ -1,6 +1,7 @@
 import React from "react";
 import { MessageComponent } from "./Message";
 import { Message } from '../../chat/Types';
+import styled from 'styled-components';
 
 type SlackMessageContainerProps = {
   messages: Message[];
@@ -8,10 +9,15 @@ type SlackMessageContainerProps = {
 
 export function SlackMessageContainer(props: SlackMessageContainerProps) {
   return (
-    <div>
+    <Container>
       {props.messages.map(m => (
         <MessageComponent message={m} key={m.id} />
       ))}
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+display: flex;
+flex-direction: column;
+`

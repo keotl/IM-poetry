@@ -20,6 +20,7 @@ exports.createPages = ({ actions }) => {
     const parser = chatLogParseFactory();
     const messages = parser.extractMessages(conversationDump);
     const users = parser.extractUsers(conversationDump);
+    const emojis = parser.extractEmojis(conversationDump);
 
     createPage({
         path: "/slack",
@@ -27,6 +28,7 @@ exports.createPages = ({ actions }) => {
         context: {
             messages,
             users,
+            emojis,
         }
     });
 };

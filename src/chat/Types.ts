@@ -11,4 +11,9 @@ export type User = {
   avatar_url: string;
 };
 
+export type Emoji = {
+  id: string;
+  image_url: string;
+};
+
 export const SLACK_DUMP_TYPE = "SLACK";

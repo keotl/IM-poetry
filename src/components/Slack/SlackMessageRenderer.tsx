@@ -1,6 +1,7 @@
 import { Message } from "../../chat/Types";
 import React, { Fragment, useContext } from "react";
 import { EmojiStoreContext } from "../EmojiStore";
+import styled from 'styled-components';
 
 type SlackMessageRendererProps = {
   message: Message;
@@ -18,7 +19,7 @@ export function SlackMessageRenderer(props: SlackMessageRendererProps) {
     rendered.push(<span>{message.slice(0, matches.index)}</span>);
     const emoji = emojiStore.getEmoji(innerText);
     if (emoji) {
-      rendered.push(<img src={emojiStore.getEmoji(innerText).image_url} />);
+      rendered.push(<RenderedEmoji src={emojiStore.getEmoji(innerText).image_url} />);
     } else {
       rendered.push(<div> EMOJI {innerText} </div>);
     }
@@ -30,3 +31,7 @@ export function SlackMessageRenderer(props: SlackMessageRendererProps) {
 
   return <Fragment>{rendered}</Fragment>;
 }
+
+const RenderedEmoji = styled.img`
+width: 20px;
+`

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Message } from "../../chat/Types";
 import styled from "styled-components";
 import { UserStoreContext } from "../UserStore";
+import { SlackMessageRenderer } from "./SlackMessageRenderer";
 
 type MessageComponentProps = {
   message: Message;
@@ -21,7 +22,9 @@ export function MessageComponent(props: MessageComponentProps) {
       <Avatar src={user.avatar_url} />
       <TextContent>
         <UserName>{user.name}</UserName>
-        <TextContent>{props.message.text}</TextContent>
+        <TextContent>
+          <SlackMessageRenderer message={props.message} />
+        </TextContent>
       </TextContent>
     </Container>
   );

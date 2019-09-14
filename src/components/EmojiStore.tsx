@@ -15,19 +15,29 @@ export function EmojiStoreContextContainer(props: {
   emojis: Emoji[];
   children: any;
 }) {
+  function getEmoji(id: string): Emoji | undefined {
+    const customEmoji = props.emojis.find(e => e.id === id);
+    if (customEmoji) {
+      if (customEmoji.image_url.startsWith("alias:")) {
+        return getEmoji(
+          customEmoji.image_url.slice(
+            "alias:".length,
+            customEmoji.image_url.length
+          )
+        );
+      }
+      return customEmoji;
+    }
+    const standardEmoji = findStandardEmoji(id);
+    if (standardEmoji) {
+      return standardEmoji;
+    }
+  }
+
   return (
     <EmojiStoreContext.Provider
       value={{
-        getEmoji: (id: string) => {
-          const customEmoji = props.emojis.find(e => e.id === id);
-          if (customEmoji) {
-            return customEmoji;
-          }
-          const standardEmoji = findStandardEmoji(id);
-          if (standardEmoji) {
-            return standardEmoji;
-          }
-        },
+        getEmoji,
       }}
     >
       {props.children}

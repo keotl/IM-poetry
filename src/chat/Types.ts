@@ -3,6 +3,12 @@ export type Message = {
   text: string;
   user: string;
   timestamp: Date;
+  reactions: EmojiReaction[];
+};
+
+export type EmojiReaction = {
+  emojiId: string;
+  users: string[];
 };
 
 export type User = {

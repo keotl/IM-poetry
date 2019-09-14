@@ -17,17 +17,9 @@ export class EmojiTextRenderer extends AbstractRichTextRenderer {
     let emoji = emojiStore.getEmoji(innerText);
 
     if (!emoji) {
-      return <div> EMOJI {innerText} </div>;
+      return <div> UNKNOWN_EMOJI :{innerText}: </div>;
     }
 
-    if (emoji.image_url.startsWith("alias:")) {
-      emoji = emojiStore.getEmoji(
-        emoji.image_url.slice("alias:".length, emoji.image_url.length)
-      );
-    }
-    if (!emoji) {
-      return <div> EMOJI {innerText} </div>;
-    }
     return <RenderedEmoji src={emoji.image_url} />;
   }
 }

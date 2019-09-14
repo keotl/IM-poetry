@@ -3,6 +3,7 @@ import { Message } from "../../chat/Types";
 import styled from "styled-components";
 import { UserStoreContext } from "../UserStore";
 import { SlackMessageRenderer } from "./SlackMessageRenderer";
+import { EmojiReactionContainer } from "./EmojiReaction";
 
 type MessageComponentProps = {
   message: Message;
@@ -18,15 +19,18 @@ export function MessageComponent(props: MessageComponentProps) {
   }
 
   return (
-    <Container key={props.message.id}>
-      <Avatar src={user.avatar_url} />
-      <TextContent>
-        <UserName>{user.name}</UserName>
+    <div>
+      <Container key={props.message.id}>
+        <Avatar src={user.avatar_url} />
         <TextContent>
-          <SlackMessageRenderer message={props.message} />
+          <UserName>{user.name}</UserName>
+          <TextContent>
+            <SlackMessageRenderer message={props.message} />
+          </TextContent>
+          <EmojiReactionContainer reactions={props.message.reactions} />
         </TextContent>
-      </TextContent>
-    </Container>
+      </Container>
+    </div>
   );
 }
 

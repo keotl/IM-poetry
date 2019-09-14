@@ -9,6 +9,9 @@ export class SlackChatLogParser implements ChatLogParser {
       text: m.text,
       user: m.user,
       timestamp: new Date(parseInt(m.ts.split(".")[0]) * 1000),
+      reactions: m.reactions
+        ? m.reactions.map(r => ({ emojiId: r.name, users: r.users }))
+        : [],
     }));
     messages.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
     return messages;
@@ -40,6 +43,7 @@ type SlackDumpFormat = {
     user: string;
     team: string;
     type: string;
+    reactions?: { name: string; users: string[]; count: number }[];
   }[];
   users: {
     id: string;

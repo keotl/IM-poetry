@@ -31,19 +31,25 @@ export function MessageComponent(props: MessageComponentProps) {
 }
 
 const Container = styled.div`
+  padding-top: 5px;
+  padding-bottom: 5px;
   display: flex;
   flex-direction: row;
+  &:hover {
+    background-color: aliceblue;
+  }
 `;
 
 const Avatar = styled.img`
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
+  border-radius: 5px;
+  margin-right: 8px;
 `;
 
 const TextContent = styled.div`
   flex: 1;
-  display: flex;
-  flex-direction: column;
+  display: inline;
 `;
 
 const UserName = styled.div`

@@ -18,7 +18,7 @@ export function MessageComponent(props: MessageComponentProps) {
   }
 
   return (
-    <Container>
+    <Container key={props.message.id}>
       <Avatar src={user.avatar_url} />
       <TextContent>
         <UserName>{user.name}</UserName>
@@ -54,8 +54,4 @@ const TextContent = styled.div`
 
 const UserName = styled.div`
   font-weight: bold;
-`;
-
-const Content = styled.div`
-  flex: 1;
 `;

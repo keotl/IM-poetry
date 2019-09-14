@@ -1,8 +1,20 @@
+import { useContext, Fragment } from "react";
 import { Message } from "../../chat/Types";
-import React, { Fragment, useContext } from "react";
 import { EmojiStoreContext, EmojiStore } from "../EmojiStore";
-import styled from "styled-components";
-import { UserStore, UserStoreContext } from "../UserStore";
+import { UserStoreContext, UserStore } from "../UserStore";
+import { RichTextRenderer } from "./Rendering/RichTextRenderer";
+import React from "react";
+import { EmojiTextRenderer } from "./Rendering/EmojiRenderer";
+import { UserMentionRenderer } from "./Rendering/UserMentionRenderer";
+import { BoldTextRenderer } from "./Rendering/BoldTextRenderer";
+import { StrikeThroughTextRenderer } from "./Rendering/StrikeThroughTextRenderer";
+import { ItalicTextRenderer } from "./Rendering/ItalicTextRenderer";
+import { v4 as uuidv4 } from "uuid";
+import {
+  SingleBacktickInlineCodeRenderer,
+  TripleBacktickInlineCodeRenderer,
+} from "./Rendering/InlineCodeRenderer";
+
 const Entities = require("html-entities").XmlEntities;
 const entities = new Entities();
 type SlackMessageRendererProps = {
@@ -12,105 +24,41 @@ type SlackMessageRendererProps = {
 export function SlackMessageRenderer(props: SlackMessageRendererProps) {
   const emojiStore = useContext(EmojiStoreContext);
   const userStore = useContext(UserStoreContext);
-  return renderRichText(props.message.text, userStore, emojiStore);
+  return (
+    <Fragment key={props.message.id}>
+      {renderText(entities.decode(props.message.text), userStore, emojiStore)}
+    </Fragment>
+  );
 }
 
-const emojiRe = /:(\S+):/;
-const userMentionRe = /<@(\S+)>/;
-const boldTextRe = /\*(.+)\*/;
-const strikethroughTextRe = /\~.+\~/;
+const renderers: RichTextRenderer[] = [
+  new UserMentionRenderer(),
+  new EmojiTextRenderer(),
+  new BoldTextRenderer(),
+  new StrikeThroughTextRenderer(),
+  new ItalicTextRenderer(),
+  new TripleBacktickInlineCodeRenderer(),
+  new SingleBacktickInlineCodeRenderer(),
+];
 
-function renderRichText(
+function renderText(
   text: string,
   userStore: UserStore,
   emojiStore: EmojiStore
 ): JSX.Element[] {
-  const userMentionMatches = userMentionRe.exec(text);
-  if (userMentionMatches) {
-    const [outerText, innerText] = userMentionMatches;
-    const user = userStore.getUser(innerText);
-    if (user) {
+  for (const renderer of renderers) {
+    const match = renderer.getMatch(text);
+    if (match) {
       return [
-        ...renderRichText(
-          text.slice(0, userMentionMatches.index),
-          userStore,
-          emojiStore
-        ),
-        <UserMention>@{user.name} </UserMention>,
-        ...renderRichText(
-          text.slice(userMentionMatches.index + outerText.length, text.length),
+        ...renderText(text.slice(0, match.startIndex), userStore, emojiStore),
+        renderer.render(match.innerText, userStore, emojiStore),
+        ...renderText(
+          text.slice(match.endIndex, text.length),
           userStore,
           emojiStore
         ),
       ];
     }
   }
-
-  const emojiMatches = emojiRe.exec(text);
-  if (emojiMatches) {
-    const [outerText, innerText] = emojiMatches;
-    const emoji = emojiStore.getEmoji(innerText);
-    if (emoji) {
-      return [
-        ...renderRichText(
-          text.slice(0, emojiMatches.index),
-          userStore,
-          emojiStore
-        ),
-        <RenderedEmoji src={emojiStore.getEmoji(innerText).image_url} />,
-        ...renderRichText(
-          text.slice(emojiMatches.index + outerText.length, text.length),
-          userStore,
-          emojiStore
-        ),
-      ];
-    } else {
-      [
-        ...renderRichText(
-          text.slice(0, emojiMatches.index),
-          userStore,
-          emojiStore
-        ),
-        <div> EMOJI {innerText}</div>,
-        ...renderRichText(
-          text.slice(emojiMatches.index + outerText.length, text.length),
-          userStore,
-          emojiStore
-        ),
-      ];
-    }
-  }
-
-  const boldMatches = boldTextRe.exec(text);
-  if (boldMatches) {
-    const [outerText, innerText] = boldMatches;
-    return [
-      ...renderRichText(
-        text.slice(0, boldMatches.index),
-        userStore,
-        emojiStore
-      ),
-      <b>{innerText}</b>,
-      ...renderRichText(
-        text.slice(boldMatches.index + outerText.length, text.length),
-        userStore,
-        emojiStore
-      ),
-    ];
-  }
-
-  return [<span>{text}</span>];
+  return [<span key={uuidv4()}>{text}</span>];
 }
-
-const RenderedEmoji = styled.img`
-  width: 22px;
-  height: 22px;
-  margin-top: -11px;
-  position: relative;
-  top: 5px;
-`;
-
-const UserMention = styled.a`
-  cursor: pointer;
-  color: blue;
-`;

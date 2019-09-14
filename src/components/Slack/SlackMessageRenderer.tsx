@@ -14,6 +14,7 @@ import {
   SingleBacktickInlineCodeRenderer,
   TripleBacktickInlineCodeRenderer,
 } from "./Rendering/InlineCodeRenderer";
+import { LineBreakRenderer } from "./Rendering/LineBreakRenderer";
 
 const Entities = require("html-entities").XmlEntities;
 const entities = new Entities();
@@ -39,6 +40,7 @@ const renderers: RichTextRenderer[] = [
   new ItalicTextRenderer(),
   new TripleBacktickInlineCodeRenderer(),
   new SingleBacktickInlineCodeRenderer(),
+  new LineBreakRenderer(),
 ];
 
 function renderText(

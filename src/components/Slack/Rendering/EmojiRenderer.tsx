@@ -6,7 +6,7 @@ import React from "react";
 
 export class EmojiTextRenderer extends AbstractRichTextRenderer {
   constructor() {
-    super(/:(\S+):/);
+    super(/:((\w|-|\+)+):/);
   }
 
   render(

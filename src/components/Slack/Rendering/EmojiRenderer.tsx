@@ -25,12 +25,15 @@ export class EmojiTextRenderer extends AbstractRichTextRenderer {
         emoji.image_url.slice("alias:".length, emoji.image_url.length)
       );
     }
-
+    if (!emoji) {
+      return <div> EMOJI {innerText} </div>;
+    }
     return <RenderedEmoji src={emoji.image_url} />;
   }
 }
 
 const RenderedEmoji = styled.img`
+  object-fit: cover;
   width: 22px;
   height: 22px;
   margin-top: -11px;

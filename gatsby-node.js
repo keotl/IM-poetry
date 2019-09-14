@@ -32,3 +32,17 @@ exports.createPages = ({ actions }) => {
         }
     });
 };
+
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+exports.onCreateWebpackConfig = ({actions, loaders, getConfig}) => {
+    actions.setWebpackConfig({
+        // module:{
+            plugins: [
+                new CopyWebpackPlugin([
+                    {from: "node_modules/emoji-datasource-google/img/google/64", to: "static/emojis"}
+                ])
+            ]
+    // }
+                            })
+}

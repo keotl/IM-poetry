@@ -17,21 +17,34 @@ const SlackPage = require("./src/templates/SlackPage").SlackPage;
 
 exports.createPages = ({ actions }) => {
   const { createPage } = actions;
-  const conversationDump = fs.readFileSync("./content/archi-dump.json", {
-    encoding: "utf-8",
+
+  const files = fs.readdirSync("./content").filter(f => f.endsWith(".json"));
+
+  files.forEach(f => {
+    const conversationDump = fs.readFileSync(`./content/${f}`, {
+      encoding: "utf-8",
+    });
+    const parser = chatLogParseFactory();
+    const messages = parser.extractMessages(conversationDump);
+    const users = parser.extractUsers(conversationDump);
+    const emojis = parser.extractEmojis(conversationDump);
+
+    createPage({
+      path: `/${f}`,
+      component: path.resolve("./src/templates/SlackPage.tsx"),
+      context: {
+        messages,
+        users,
+        emojis,
+      },
+    });
   });
-  const parser = chatLogParseFactory();
-  const messages = parser.extractMessages(conversationDump);
-  const users = parser.extractUsers(conversationDump);
-  const emojis = parser.extractEmojis(conversationDump);
 
   createPage({
-    path: "/slack",
-    component: path.resolve("./src/templates/SlackPage.tsx"),
+    path: "/",
+    component: path.resolve("./src/templates/Index.tsx"),
     context: {
-      messages,
-      users,
-      emojis,
+      links: files,
     },
   });
 };

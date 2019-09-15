@@ -1,8 +1,8 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `IM-poetry`,
+    description: `When instant-messaging reads like poetry.`,
+    author: `Kento A. Lauzon`,
   },
   plugins: [
     `gatsby-plugin-typescript`,
@@ -28,12 +28,12 @@ module.exports = {
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
       },
     },
-      {
-          resolve: `gatsby-plugin-styled-components`,
-          options: {}
-      }
+    {
+      resolve: `gatsby-plugin-styled-components`,
+      options: {},
+    },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
   ],
-}
+};

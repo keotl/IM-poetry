@@ -3,6 +3,7 @@
   "private": false,
   "description": "When instant messaging reads like poetry.",
   "version": "0..1",
+  "version": "0.0.1",
   "author": "Kento A. Lauzon <kento.lauzon@ligature.ca>",
   "dependencies": {
     "babel-plugin-styled-components": "^1.10.6",

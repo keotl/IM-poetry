@@ -8,7 +8,7 @@ export class SlackChatLogParser implements ChatLogParser {
       id: m.client_msg_id,
       text: m.text,
       user: m.user,
-      timestamp: new Date(parseInt(m.ts.split(".")[0]) * 1000),
+      timestamp: new Date(parseInt(m.ts.replace(".", ""))),
       reactions: m.reactions
         ? m.reactions.map(r => ({ emojiId: r.name, users: r.users }))
         : [],

@@ -19,7 +19,7 @@ export class TripleBacktickInlineCodeRenderer extends AbstractRichTextRenderer {
 }
 
 export class SingleBacktickInlineCodeRenderer extends AbstractRichTextRenderer {
-  constructor() {
+    constructor() {
     super(/`([^`]*)`/);
   }
 

@@ -40,7 +40,8 @@ const renderers: RichTextRenderer[] = [
   new ItalicTextRenderer(),
   new TripleBacktickInlineCodeRenderer(),
   new SingleBacktickInlineCodeRenderer(),
-  new LineBreakRenderer(),
+    new LineBreakRenderer(),
+    new LinkTextRenderer()
 ];
 
 function renderText(

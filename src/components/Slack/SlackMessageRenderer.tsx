@@ -50,6 +50,10 @@ function renderText(
   userStore: UserStore,
   emojiStore: EmojiStore
 ): JSX.Element[] {
+  if (text.trim() === "") {
+    return [];
+  }
+
   for (const renderer of renderers) {
     const match = renderer.getMatch(text);
     if (match) {

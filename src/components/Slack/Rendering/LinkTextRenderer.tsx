@@ -5,7 +5,7 @@ import React from "react";
 
 export class LinkTextRenderer extends AbstractRichTextRenderer {
   constructor() {
-    super(/<([a-zA-Z0-9:/_.?#]+)>/);
+    super(/<([a-zA-Z0-9:/_.?#%+=&]+)>/);
   }
 
   render(

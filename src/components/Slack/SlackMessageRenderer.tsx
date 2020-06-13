@@ -34,15 +34,15 @@ export function SlackMessageRenderer(props: SlackMessageRendererProps) {
 }
 
 const renderers: RichTextRenderer[] = [
+  new TripleBacktickInlineCodeRenderer(),
+  new SingleBacktickInlineCodeRenderer(),
   new UserMentionRenderer(),
+  new LinkTextRenderer(),
   new EmojiTextRenderer(),
   new BoldTextRenderer(),
   new StrikeThroughTextRenderer(),
   new ItalicTextRenderer(),
-  new TripleBacktickInlineCodeRenderer(),
-  new SingleBacktickInlineCodeRenderer(),
   new LineBreakRenderer(),
-  new LinkTextRenderer(),
 ];
 
 function renderText(
